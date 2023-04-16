@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+requests = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
+django-cors-headers = "*"
+python-dateutil = "*"
+pillow = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
