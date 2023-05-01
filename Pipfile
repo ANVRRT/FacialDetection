@@ -11,6 +11,13 @@ gunicorn = "*"
 django-cors-headers = "*"
 python-dateutil = "*"
 pillow = "*"
+cmake = "*"
+face-recognition = "*"
+ipython = "*"
+pandas = "*"
+opencv-python = "*"
+numpy = "*"
+scikit-image = "*"
 
 [dev-packages]
 
