@@ -5,6 +5,7 @@ from django.core.files.temp import NamedTemporaryFile
 #Import urlopen
 from urllib.request import urlopen
 
+from testing2 import *
 import os
 import re
 import base64
@@ -32,6 +33,14 @@ def index(request):
         image_data = base64.b64decode(image_data)
 
         image_file_name = photo_name + ".png"
+
+        X = Image2Vector(image_file_name)
+
+        print(X)
+
+        database = pandas.read_csv("Faces.csv")
+
+        print(database)
 
         image_file_path = os.path.join('temp/images/', image_file_name)
 
