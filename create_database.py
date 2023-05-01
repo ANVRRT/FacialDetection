@@ -3,7 +3,6 @@ import pandas
 import cv2
 import face_recognition
 import glob
-import numpy
 
 # The Database is created only once.
 
