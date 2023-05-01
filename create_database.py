@@ -28,7 +28,11 @@ def design_database(options):
         vector_image = image_to_vector(image)
         database.append(vector_image)
 
-        keys.append(str(image).split("/")[1].split("\\")[1])
+        # For Windows
+        #keys.append(str(image).split("/")[1].split("\\")[1])
+
+        # For Mac
+        keys.append(str(image).split("/")[2])
 
     # Create DataFrame with the labels and vector images to convert it to CSV file.
     dataframe = pandas.DataFrame(database)
