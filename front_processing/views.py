@@ -5,7 +5,7 @@ from django.core.files.temp import NamedTemporaryFile
 #Import urlopen
 from urllib.request import urlopen
 
-from testing2 import *
+from create_database import *
 import os
 import re
 import base64
@@ -34,7 +34,7 @@ def index(request):
 
         image_file_name = photo_name + ".png"
 
-        X = Image2Vector(image_file_name)
+        X = image_to_vector(image_file_name)
 
         print(X)
 
