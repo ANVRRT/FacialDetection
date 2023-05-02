@@ -18,6 +18,8 @@ pandas = "*"
 opencv-python = "*"
 numpy = "*"
 scikit-image = "*"
+glob2 = "*"
+scikit-learn = "*"
 
 [dev-packages]
 
