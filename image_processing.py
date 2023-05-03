@@ -1,16 +1,18 @@
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
+#import matplotlib
+#matplotlib.use("Agg")
+from matplotlib import pyplot
 from sklearn.manifold import Isomap
 from sklearn.metrics.pairwise import cosine_similarity
 #from sklearn.manifold import TSNE
 #from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
 
-import face_recognition
 from create_database import image_to_vector
 import pandas
 import numpy
 import glob
-import cv2
+#import tkinter as tk
 
 
 def classify_faces(images_dataframe, profile):
@@ -24,7 +26,18 @@ def classify_faces(images_dataframe, profile):
 
     dimentionality_reduction(face, profile, images_dataframe)
 
-def dimentionality_reduction(images_array, vectorized_image, image_dataframe):
+def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
+    ax[k].set_title(model_tag)
+    for var in images_dataframe.Keys.unique():
+        #ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
+        #reduced_faces[images_dataframe.Keys == var,1],
+        #linestyle = "None", marker = ".", label = var)
+        ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
+        reduced_faces[images_dataframe.Keys == var,1],
+        linestyle = "None", marker = ".", label = var)
+    pyplot.title(model_tag)
+
+def dimentionality_reduction(images_array, vectorized_image, images_dataframe):
     Models = {
     "PCA":PCA(n_components = 2),
     "SVD":TruncatedSVD(n_components = 2),
@@ -32,12 +45,20 @@ def dimentionality_reduction(images_array, vectorized_image, image_dataframe):
     "ISOmap": Isomap(n_components = 2)
     }
     
-    for model_tag in Models:
+    #k=0
+    fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
+
+    for k, model_tag in enumerate(Models.keys()):
         #print(model_tag)
         Model = Models.get(model_tag)
         images_array_model = Model.fit(images_array)
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
+
+        #ax[k].set_title(model_tag)
+        graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
+        #k+=1
+
         #print(reduced_face)
         similarities = []
         i = 0
@@ -47,12 +68,19 @@ def dimentionality_reduction(images_array, vectorized_image, image_dataframe):
             similarities.append(similarity)
             print(i, similarity)
             i += 1
+        print('-----------------------')
+    label=images_dataframe.Keys.unique()
+    fig.legend([ax[0], ax[1], ax[2]],
+    labels=label,
+    loc = "right"
+    )
+    pyplot.show()
 
         #print('-------------------')
         #similarities = numpy.asarray(similarities)
         #Idx = numpy.argsort(similarities)
         #print(image_dataframe.iloc[Idx[0:5]])
-        print('-----------------------')
+        
         #if model_tag == "PCA": #JALA
         #    pca.append(images_array_model)
         #if model_tag == "SVD": #JALA

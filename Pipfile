@@ -20,6 +20,7 @@ numpy = "*"
 scikit-image = "*"
 glob2 = "*"
 scikit-learn = "*"
+matplotlib = "*"
 
 [dev-packages]
 
