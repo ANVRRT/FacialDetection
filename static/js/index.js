@@ -1,4 +1,4 @@
-(function() {
+
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
@@ -57,6 +57,7 @@
 
     startbutton.addEventListener('click', function(ev){
       takepicture();
+      console.log("click");
       ev.preventDefault();
     }, false);
     
@@ -94,13 +95,20 @@
       
       photo.setAttribute('src', data);
       image_to_process.setAttribute('value', data);
+      console.log("THS")
 
     } else {
       clearphoto();
+      console.log("THAT")
     }
+  }
+
+  function submittest(){
+    takepicture();
   }
 
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener('load', startup, false);
-})();
+
+
