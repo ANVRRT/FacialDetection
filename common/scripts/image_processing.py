@@ -3,7 +3,6 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 from matplotlib import pyplot
 from sklearn.manifold import Isomap
-# from create_database import image_to_vector
 from common.scripts.create_database import image_to_vector
 import pandas
 import numpy
@@ -53,7 +52,7 @@ def execute_models(images_array, vectorized_image, images_dataframe):
     "ISOmap": Isomap(n_components = 2)
     }
     
-    fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
+    #fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
 
     for k, model_tag in enumerate(Models.keys()):
         
@@ -62,7 +61,7 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
         
-        graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
+        #graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
         
         similaritiesManhattan = []
         similaritiesEuclidean = []
@@ -91,13 +90,9 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
         print(images_dataframe.iloc[cosineVectorIndex [0:5]])
 
-    label=images_dataframe.Keys.unique()
-    fig.legend([ax[0], ax[1], ax[2]],
-    labels=label,
-    loc = "right"
-    )
-    
-    pyplot.show()
+    #label=images_dataframe.Keys.unique()
+    #fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
+    #pyplot.show()
 
 # Remove Keys from Dataframe.
 def remove_keys(images_dataframe, profile):
@@ -106,10 +101,9 @@ def remove_keys(images_dataframe, profile):
 
 # Function to receive the image that the user takes in the auth system.
 def image_recept(image_path):
-    
     image = glob.glob(image_path)
-    df=pandas.read_csv("Faces.csv")
+    df=pandas.read_csv("common/scripts/Faces.csv")
 
-    vectorized_image=image_to_vector(image)
+    vectorized_image=image_to_vector(image[0])
 
     remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
