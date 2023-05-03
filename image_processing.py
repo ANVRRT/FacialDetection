@@ -67,11 +67,11 @@ def dimentionality_reduction(images_array, vectorized_image, images_dataframe):
         cosineVectorIndex = numpy.argsort(similaritiesCosine)[::-1]
 
         print('MANHATTAN WITH MODEL -- ' + model_tag)
-        print(image_dataframe.iloc[manhattanVectorIndex[0:5]])
+        print(images_dataframe.iloc[manhattanVectorIndex[0:5]])
         print('EUCLIDEAN WITH MODEL -- ' + model_tag)
-        print(image_dataframe.iloc[euclideanVectorIndex [0:5]])
+        print(images_dataframe.iloc[euclideanVectorIndex [0:5]])
         print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
-        print(image_dataframe.iloc[cosineVectorIndex [0:5]])
+        print(images_dataframe.iloc[cosineVectorIndex [0:5]])
 
     label=images_dataframe.Keys.unique()
     fig.legend([ax[0], ax[1], ax[2]],
