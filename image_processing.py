@@ -68,17 +68,6 @@ def DistCos(x,y):
 def manhattan(a, b):
     return sum(abs(val1-val2) for val1, val2 in zip(a,b))
 
-def p_root(value, root):
-     
-    root_value = 1 / float(root)
-    return round (float(value) ** float(root_value), 3)
- 
-def minkowski_distance(x, y, p_value):
-    return (p_root(sum(pow(abs(a-b), p_value)
-            for a, b in zip(x, y)), p_value))
-
-def similarity_comparison(x,y, kernel):
-    return kernel(x,y)
 
 images = glob.glob("files/TC3002B_Faces/" + "**/**.jpg")
 df=pandas.read_csv("Faces.csv")
