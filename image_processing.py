@@ -24,9 +24,6 @@ def classify_faces(images_dataframe, profile):
 def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
     ax[k].set_title(model_tag)
     for var in images_dataframe.Keys.unique():
-        #ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
-        #reduced_faces[images_dataframe.Keys == var,1],
-        #linestyle = "None", marker = ".", label = var)
         ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
         reduced_faces[images_dataframe.Keys == var,1],
         linestyle = "None", marker = ".", label = var)
