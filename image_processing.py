@@ -1,17 +1,13 @@
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
-from sklearn.decomposition import LatentDirichletAllocation as LDA
 from sklearn.manifold import Isomap
-from sklearn.metrics.pairwise import cosine_similarity
-#from sklearn.manifold import TSNE
-#from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-
-import face_recognition
+from scipy.spatial import distance
 from create_database import image_to_vector
+
 import pandas
 import numpy
 import glob
-import cv2
+
 
 def classify_faces(images_dataframe, profile):
     face=numpy.asarray(images_dataframe.iloc[:,1:])
@@ -21,7 +17,6 @@ def dimentionality_reduction(images_array, vectorized_image, image_dataframe):
     Models = {
     "PCA":PCA(n_components = 2),
     "SVD":TruncatedSVD(n_components = 2),
-    "LDA": LDA(n_components = 2),
     "ISOmap": Isomap(n_components = 2)
     }
     
@@ -30,17 +25,34 @@ def dimentionality_reduction(images_array, vectorized_image, image_dataframe):
         images_array_model = Model.fit(images_array)
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
-        similarities = []
-        i = 0
-        for db_face in reduced_faces:
-            similarity = numpy.linalg.norm(reduced_face[0]-db_face)
-            #similarity = DistCos(reduced_face[0], db_face)
-            similarities.append(similarity)
+        similaritiesManhattan = []
+        similaritiesEuclidean = []
+        similaritiesCosine = []
 
-        #print('-------------------')
-        similarities = numpy.asarray(similarities)
-        Idx = numpy.argsort(similarities)
-        print(image_dataframe.iloc[Idx[0:5]])
+        for db_face in reduced_faces:
+            similarityManhattan = manhattan(reduced_face[0],db_face)
+            similarityEuclidean = L2(reduced_face[0],db_face)
+            similarityCosine = DistCos(reduced_face[0], db_face)
+            similaritiesManhattan.append(similarityManhattan)
+            similaritiesEuclidean.append(similarityEuclidean)
+            similaritiesCosine.append(similarityCosine)
+
+        
+        
+        similaritiesManhattan = numpy.asarray(similaritiesManhattan)
+        similaritiesEuclidean = numpy.asarray(similaritiesEuclidean)
+        similaritiesCosine = numpy.asarray(similaritiesCosine)
+        
+        manhattanVectorIndex = numpy.argsort(similaritiesManhattan)
+        euclideanVectorIndex = numpy.argsort(similaritiesEuclidean)
+        cosineVectorIndex = numpy.argsort(similaritiesCosine)[::-1]
+
+        print('MANHATTAN WITH MODEL -- ' + model_tag)
+        print(image_dataframe.iloc[manhattanVectorIndex[0:5]])
+        print('EUCLIDEAN WITH MODEL -- ' + model_tag)
+        print(image_dataframe.iloc[euclideanVectorIndex [0:5]])
+        print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
+        print(image_dataframe.iloc[cosineVectorIndex [0:5]])
 
 def L2(x,y):
   z = x-y
@@ -53,6 +65,18 @@ def DistCos(x,y):
   b = numpy.power( numpy.matmul( x.T, x), 1/2 ) * numpy.power( numpy.matmul( y.T, y), 1/2 )
   return a/b  
 
+def manhattan(a, b):
+    return sum(abs(val1-val2) for val1, val2 in zip(a,b))
+
+def p_root(value, root):
+     
+    root_value = 1 / float(root)
+    return round (float(value) ** float(root_value), 3)
+ 
+def minkowski_distance(x, y, p_value):
+    return (p_root(sum(pow(abs(a-b), p_value)
+            for a, b in zip(x, y)), p_value))
+
 def similarity_comparison(x,y, kernel):
     return kernel(x,y)
 
@@ -63,8 +87,8 @@ pca = []
 svd = []
 tsne = []
 
-print(images[2])
+print(images[41])
 print('-----------------')
-vectorized_image=image_to_vector(images[2])
+vectorized_image=image_to_vector(images[41])
 
 classify_faces(df,numpy.asarray(vectorized_image).reshape(1, -1))
