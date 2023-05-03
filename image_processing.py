@@ -57,18 +57,7 @@ def dimentionality_reduction(images_array, vectorized_image, images_dataframe):
             similaritiesManhattan.append(similarityManhattan)
             similaritiesEuclidean.append(similarityEuclidean)
             similaritiesCosine.append(similarityCosine)
-            similarity = DistCos(reduced_face[0], db_face)
-            similarities.append(similarity)
-            print(i, similarity)
-    label=images_dataframe.Keys.unique()
-    fig.legend([ax[0], ax[1], ax[2]],
-    labels=label,
-    loc = "right"
-    )
-    pyplot.show()
 
-        
-        
         similaritiesManhattan = numpy.asarray(similaritiesManhattan)
         similaritiesEuclidean = numpy.asarray(similaritiesEuclidean)
         similaritiesCosine = numpy.asarray(similaritiesCosine)
@@ -83,6 +72,13 @@ def dimentionality_reduction(images_array, vectorized_image, images_dataframe):
         print(image_dataframe.iloc[euclideanVectorIndex [0:5]])
         print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
         print(image_dataframe.iloc[cosineVectorIndex [0:5]])
+
+    label=images_dataframe.Keys.unique()
+    fig.legend([ax[0], ax[1], ax[2]],
+    labels=label,
+    loc = "right"
+    )
+    pyplot.show()
 
 def L2(x,y):
   z = x-y
