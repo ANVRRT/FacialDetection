@@ -38,6 +38,7 @@ def index(request):
 
         with open(image_file_path, 'wb') as image_file:
             image_file.write(image_data)
+            success = True
 
         
         # X = image_to_vector(image_file_name)
@@ -45,12 +46,15 @@ def index(request):
         # print(X)
 
         # database = pandas.read_csv("Faces.csv")
-
+        if (success):
+            return redirect("front_processing:admin")
 
     return render(request, 'front_processing/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
     
+def admin_dashboard(request):
+    context = {'matricula':'A01365190'}
+    return render(request, 'admin/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
 
-    return render(request, 'front_processing/index.html')
 
 # def image_upload(request):
 #     context = dict()
