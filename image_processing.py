@@ -1,20 +1,12 @@
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
-#import matplotlib
-#matplotlib.use("Agg")
 from matplotlib import pyplot
 from sklearn.manifold import Isomap
-from sklearn.metrics.pairwise import cosine_similarity
-#from sklearn.manifold import TSNE
-#from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-
-import face_recognition
 from create_database import image_to_vector
 
 import pandas
 import numpy
 import glob
-import cv2
 
 
 def classify_faces(images_dataframe, profile):
