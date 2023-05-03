@@ -17,16 +17,19 @@ def euclidean_distance(vector_x,vector_y):
   resulting_distance = resulting_distance ** 2
   resulting_distance = numpy.sum(resulting_distance)
   resulting_distance = numpy.power(resulting_distance,1/2)
+
   return resulting_distance
 
 # Cosine Similarity Function.
 def cosine_similarity(vector_x, vector_y):
   matrix_product_result = numpy.matmul(vector_x.T, vector_y)
   product_euclidean_norm = numpy.power( numpy.matmul( vector_x.T, vector_x), 1/2 ) * numpy.power( numpy.matmul( vector_y.T, vector_y), 1/2 )
+
   return matrix_product_result/product_euclidean_norm  
 
 # Manhattan Similarity Function.
 def manhattan(vector_x, vector_y):
+
     return sum(abs(component_x-component_y) for component_x, component_y in zip(vector_x,vector_y))
 
 # Create the graphs of each model.
@@ -93,6 +96,7 @@ def execute_models(images_array, vectorized_image, images_dataframe):
     labels=label,
     loc = "right"
     )
+    
     pyplot.show()
 
 # Remove Keys from Dataframe.
@@ -101,7 +105,7 @@ def remove_keys(images_dataframe, profile):
     execute_models(face, profile, images_dataframe)
 
 # Function to receive the image that the user takes in the auth system.
-def image_recept (image_path):
+def image_recept(image_path):
     
     image = glob.glob(image_path)
     df=pandas.read_csv("Faces.csv")

@@ -78,7 +78,7 @@ if __name__ == '__main__':
     options = Option
 
     options.folder_path = "common/files/TC3002B_Faces/"
-    options.out_file = "Faces.csv"
+    options.out_file = "common/scripts/Faces.csv"
 
     # Create and Design the Database.
     design_database(options)
