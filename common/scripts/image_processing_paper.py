@@ -52,8 +52,8 @@ def execute_models(images_array, vectorized_image, images_dataframe):
     "ISOmap": Isomap(n_components = 2)
     }
     
-    #fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
-    similar_faces = numpy.array([])
+    fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
+
     for k, model_tag in enumerate(Models.keys()):
         
         Model = Models.get(model_tag)
@@ -61,7 +61,7 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
         
-        #graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
+        graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
         
         similaritiesManhattan = []
         similaritiesEuclidean = []
@@ -83,15 +83,17 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         euclideanVectorIndex = numpy.argsort(similaritiesEuclidean)
         cosineVectorIndex = numpy.argsort(similaritiesCosine)[::-1]
 
-        similar_faces=numpy.append(similar_faces, images_dataframe.iloc[manhattanVectorIndex[0:5]]['Keys'])
-        similar_faces=numpy.append(similar_faces, images_dataframe.iloc[euclideanVectorIndex [0:5]]['Keys'])
-        similar_faces=numpy.append(similar_faces, images_dataframe.iloc[cosineVectorIndex [0:5]]['Keys'])
+        print('MANHATTAN WITH MODEL -- ' + model_tag)
+        print(images_dataframe.iloc[manhattanVectorIndex[0:5]]['Keys'])
+        print('EUCLIDEAN WITH MODEL -- ' + model_tag)
+        print(images_dataframe.iloc[euclideanVectorIndex [0:5]]['Keys'])
+        print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
+        print(images_dataframe.iloc[cosineVectorIndex [0:5]]['Keys'])
 
+    label=images_dataframe.Keys.unique()
+    fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
+    pyplot.show()
 
-    #label=images_dataframe.Keys.unique()
-    #fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
-    #pyplot.show()
-    print(similar_faces)
 # Remove Keys from Dataframe.
 def remove_keys(images_dataframe, profile):
     face=numpy.asarray(images_dataframe.iloc[:,1:])
