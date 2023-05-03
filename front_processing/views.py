@@ -9,7 +9,9 @@ from create_database import *
 import os
 import re
 import base64
-from .forms.forms import ImageUploadForm
+# from .forms.forms import ImageUploadForm
+
+from common.scripts.image_processing import image_recept
 
 
 # Create your views here.
@@ -25,7 +27,7 @@ def index(request):
     context = {}
     if request.method == 'POST':
 
-        photo_name = "foto_to_analize"
+        photo_name = "photo_to_process"
         dataURL = request.POST['image_to_process']
 
         image_data = re.search(r'base64,(.*)', dataURL).group(1)
@@ -38,16 +40,13 @@ def index(request):
 
         with open(image_file_path, 'wb') as image_file:
             image_file.write(image_data)
-            success = True
 
         
-        # X = image_to_vector(image_file_name)
-
-        # print(X)
-
-        # database = pandas.read_csv("Faces.csv")
-        if (success):
+        results = image_recept(image_file_path)
+        if results: # IDK what TF is going to return here
             return redirect("front_processing:admin")
+        else:
+            return redirect("front_processing:index")
 
     return render(request, 'front_processing/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
     
