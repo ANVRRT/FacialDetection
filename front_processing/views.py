@@ -5,7 +5,6 @@ from django.core.files.temp import NamedTemporaryFile
 #Import urlopen
 from urllib.request import urlopen
 
-from create_database import *
 import os
 import re
 import base64
@@ -34,7 +33,7 @@ def index(request):
         image_data = re.sub("^data:image/png;base64,", "", image_data)
         image_data = base64.b64decode(image_data)
 
-        image_file_name = photo_name + ".png"
+        image_file_name = photo_name + ".jpg"
 
         image_file_path = os.path.join('temp/images/', image_file_name)
 
