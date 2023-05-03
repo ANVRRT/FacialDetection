@@ -99,11 +99,12 @@ def remove_keys(images_dataframe, profile):
     face=numpy.asarray(images_dataframe.iloc[:,1:])
     execute_models(face, profile, images_dataframe)
 
-images = glob.glob("files/TC3002B_Faces/" + "**/**.jpg")
-df=pandas.read_csv("Faces.csv")
+# Function to receive the image that the user takes in the auth system.
+def image_recept (image_path):
+    
+    image = glob.glob(image_path)
+    df=pandas.read_csv("Faces.csv")
 
-print(images[41])
-print('-----------------')
-vectorized_image=image_to_vector(images[41])
+    vectorized_image=image_to_vector(image)
 
-remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
+    remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
