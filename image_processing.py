@@ -1,69 +1,73 @@
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
+from matplotlib import pyplot
 from sklearn.manifold import Isomap
-from sklearn.metrics.pairwise import cosine_similarity
-#from sklearn.manifold import TSNE
-#from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
-
-import face_recognition
 from create_database import image_to_vector
+
 import pandas
 import numpy
 import glob
-import cv2
 
 
 def classify_faces(images_dataframe, profile):
-    #print(df["Keys"])
-    #face = images_dataframe[images_dataframe['Keys'] == profile]
-    #neighbors=len(face['Keys'])-1
-    #print(face['Keys'])
-    #face = numpy.asarray(face.iloc[:,1:])
-    #print(face.shape)
     face=numpy.asarray(images_dataframe.iloc[:,1:])
-
     dimentionality_reduction(face, profile, images_dataframe)
 
-def dimentionality_reduction(images_array, vectorized_image, image_dataframe):
+def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
+    ax[k].set_title(model_tag)
+    for var in images_dataframe.Keys.unique():
+        ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
+        reduced_faces[images_dataframe.Keys == var,1],
+        linestyle = "None", marker = ".", label = var)
+    pyplot.title(model_tag)
+
+def dimentionality_reduction(images_array, vectorized_image, images_dataframe):
     Models = {
     "PCA":PCA(n_components = 2),
     "SVD":TruncatedSVD(n_components = 2),
-    #"TSNE": TSNE(n_components = 2)
     "ISOmap": Isomap(n_components = 2)
     }
     
-    for model_tag in Models:
-        #print(model_tag)
+    fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
+
+    for k, model_tag in enumerate(Models.keys()):
         Model = Models.get(model_tag)
         images_array_model = Model.fit(images_array)
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
-        #print(reduced_face)
-        similarities = []
-        i = 0
+        graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
+        similaritiesManhattan = []
+        similaritiesEuclidean = []
+        similaritiesCosine = []
         for db_face in reduced_faces:
-            #similarity = numpy.linalg.norm(reduced_face[0]-db_face)
-            similarity = DistCos(reduced_face[0], db_face)
-            similarities.append(similarity)
-            print(i, similarity)
-            i += 1
+            similarityManhattan = manhattan(reduced_face[0],db_face)
+            similarityEuclidean = L2(reduced_face[0],db_face)
+            similarityCosine = DistCos(reduced_face[0], db_face)
+            similaritiesManhattan.append(similarityManhattan)
+            similaritiesEuclidean.append(similarityEuclidean)
+            similaritiesCosine.append(similarityCosine)
 
-        #print('-------------------')
-        #similarities = numpy.asarray(similarities)
-        #Idx = numpy.argsort(similarities)
-        #print(image_dataframe.iloc[Idx[0:5]])
-        print('-----------------------')
-        #if model_tag == "PCA": #JALA
-        #    pca.append(images_array_model)
-        #if model_tag == "SVD": #JALA
-        #    svd.append(images_array_model)
-        #if model_tag == "TSNE": #JALA
-        #    tsne.append(images_array_model)
+        similaritiesManhattan = numpy.asarray(similaritiesManhattan)
+        similaritiesEuclidean = numpy.asarray(similaritiesEuclidean)
+        similaritiesCosine = numpy.asarray(similaritiesCosine)
+        
+        manhattanVectorIndex = numpy.argsort(similaritiesManhattan)
+        euclideanVectorIndex = numpy.argsort(similaritiesEuclidean)
+        cosineVectorIndex = numpy.argsort(similaritiesCosine)[::-1]
 
-    #pyplot.show()
-    #print(numpy.asareductions[0])
-    #print("#####")
-    #print(reductions)
+        print('MANHATTAN WITH MODEL -- ' + model_tag)
+        print(images_dataframe.iloc[manhattanVectorIndex[0:5]])
+        print('EUCLIDEAN WITH MODEL -- ' + model_tag)
+        print(images_dataframe.iloc[euclideanVectorIndex [0:5]])
+        print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
+        print(images_dataframe.iloc[cosineVectorIndex [0:5]])
+
+    label=images_dataframe.Keys.unique()
+    fig.legend([ax[0], ax[1], ax[2]],
+    labels=label,
+    loc = "right"
+    )
+    pyplot.show()
 
 def L2(x,y):
   z = x-y
@@ -76,8 +80,9 @@ def DistCos(x,y):
   b = numpy.power( numpy.matmul( x.T, x), 1/2 ) * numpy.power( numpy.matmul( y.T, y), 1/2 )
   return a/b  
 
-def similarity_comparison(x,y, kernel):
-    return kernel(x,y)
+def manhattan(a, b):
+    return sum(abs(val1-val2) for val1, val2 in zip(a,b))
+
 
 images = glob.glob("files/TC3002B_Faces/" + "**/**.jpg")
 df=pandas.read_csv("Faces.csv")
@@ -86,23 +91,8 @@ pca = []
 svd = []
 tsne = []
 
-#for var in df.Keys.unique():
-#    classify_faces(df,var)
-
-#print(pca)
-#print("###############")
-#print(svd)
-#print("###############")
-##print(tsne[0].shape)
-#print(tsne)
-
-#images[0] es una ruta de prueba para la vectorizacion y reduccion individual de dimensiones de imagen
-print(images[2])
+print(images[41])
 print('-----------------')
-vectorized_image=image_to_vector(images[2])
-#image_reduction(numpy.asarray(vectorized_image).reshape(1, -1))
+vectorized_image=image_to_vector(images[41])
 
 classify_faces(df,numpy.asarray(vectorized_image).reshape(1, -1))
-#print(numpy.asarray(vectorized_image).reshape(1, -1))
-#print("-----------------------------------")
-#dimentionality_reduction(numpy.asarray(vectorized_image).reshape(1,-1),1)
