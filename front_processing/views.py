@@ -11,6 +11,9 @@ import base64
 # from .forms.forms import ImageUploadForm
 
 from common.scripts.image_processing import image_recept
+from common.utils.image_procesor import image_procesor
+
+
 
 
 # Create your views here.

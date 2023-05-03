@@ -96,7 +96,7 @@ def execute_models(images_array, vectorized_image, images_dataframe):
 
 # Remove Keys from Dataframe.
 def remove_keys(images_dataframe, profile):
-    face=numpy.asarray(images_dataframe.iloc[:,1:])
+    face = numpy.asarray(images_dataframe.iloc[:,1:])
     execute_models(face, profile, images_dataframe)
 
 # Function to receive the image that the user takes in the auth system.
