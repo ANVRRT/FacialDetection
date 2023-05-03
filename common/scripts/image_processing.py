@@ -3,7 +3,8 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 from matplotlib import pyplot
 from sklearn.manifold import Isomap
-from create_database import image_to_vector
+# from create_database import image_to_vector
+from common.scripts.create_database import image_to_vector
 import pandas
 import numpy
 import glob
