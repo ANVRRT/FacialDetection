@@ -123,4 +123,4 @@ def image_received(image_path):
     remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
 
 images = glob.glob("../files/TC3002B_Faces/" + "**/**.jpg")
-image_recept(images)
+image_received(images)
