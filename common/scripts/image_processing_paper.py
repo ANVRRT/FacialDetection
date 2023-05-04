@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 from matplotlib import pyplot
 from sklearn.manifold import Isomap
-from common.scripts.create_database import image_to_vector
+from create_database import image_to_vector
 import pandas
 import numpy
 import glob
@@ -100,10 +100,13 @@ def remove_keys(images_dataframe, profile):
     execute_models(face, profile, images_dataframe)
 
 # Function to receive the image that the user takes in the auth system.
-def image_recept(image_path):
+def image_received(image_path):
     image = glob.glob(image_path)
-    df=pandas.read_csv("common/scripts/Faces.csv")
+    df=pandas.read_csv("Faces.csv")
 
     vectorized_image=image_to_vector(image[0])
 
     remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
+
+
+image_received('../../temp/images/**.jpg')
