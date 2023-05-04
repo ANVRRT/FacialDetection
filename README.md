@@ -17,8 +17,11 @@
 Este proyecto presenta un sistema de autenticación mediante el reconocimiento facial, utilizando Django para el procesamiento de imágenes y técnicas de aprendizaje automático. Este sistema consta de cuatro etapas, que se describen a continuación:
 
 Adquisición de imágenes: se adquieren imágenes de rostros de estudiantes del Tecnológico de Monterrey Campus Toluca.
+
 Extracción y vectorización de características: se extraen y vectorizan las características del rostro.
+
 Reducción de dimensionalidad: se utilizan diferentes modelos (PCA, SVD e ISOmap) para reducir la dimensionalidad y extraer características importantes para la clasificación de los rostros.
+
 Identificación del rostro: se asigna una ponderación a los resultados obtenidos en cada uno de los modelos para identificar el rostro en cuestión.
 Este último paso se realiza como propuesta de solución para sistemas de reconocimiento facial ante un conjunto de datos limitado. Los resultados sugieren que el uso de técnicas de reducción de dimensiones y métricas de similitud adecuadas puede mejorar significativamente el rendimiento de los sistemas de reconocimiento facial.
 
