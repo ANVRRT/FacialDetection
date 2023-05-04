@@ -25,11 +25,13 @@ Este último paso se realiza como propuesta de solución para sistemas de recono
 Requisitos
 Para poder utilizar este sistema de autenticación por reconocimiento facial, se necesitan los siguientes requisitos:
 
-Python 3.6 o superior
-Django 3.2 o superior
-OpenCV 4.5 o superior
-NumPy 1.20 o superior
-Scikit-learn 0.24 o superior
+<ul>Python 3.6 o superior</ul>
+<ul>Django 3.2 o superior</ul>
+<ul>OpenCV 4.5 o superior</ul>
+<ul>NumPy 1.20 o superior</ul>
+<ul>Scikit-learn 0.24 o superior</ul>
+
+
 Instalación
 Para instalar este sistema de autenticación por reconocimiento facial, siga los siguientes pasos:
 
