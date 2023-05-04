@@ -11,11 +11,18 @@
     </head>
     <body style="overflow-y: scroll;">
         <h1>Autenticación por reconocimiento facial</h1>
+        {% if alert %}
+
+        <div style="color: rgb(189, 19, 19); text-align: center;" role="alert">
+            <h2> {{ alert }} </h2>
+        </div>
+
+        {% endif %}
         <div id="camera" class="camera" style="width: 640px; height: 480px;">
             <video id="video" style="width: 640px; height: 480px;">Video stream not available.</video>
         </div>
 
-        <button id="startbutton">Take photo</button>
+        <button id="startbutton">TOMAR FOTO</button>
         <canvas id="canvas">
         </canvas>
         <div>
@@ -25,7 +32,10 @@
             {% csrf_token %}
             <input id="image_to_process" value="" name="image_to_process" type="text" style="display: none;">
             
-            <button type="submit" class="button form-submit-button" id="submit">Submit</button>
+            <input id="matricula" class="form-submit-button" value="" name="matricula" type="text" style="background-color: aqua; color: black;" placeholder="Escribe tu matrícula" required>
+
+
+            <button type="submit" class="button form-submit-button" id="submit" style="display: none;">CONTINUAR</button>
         </form>
         <img src="{{ path }}" alt="The screen capture will appear in this box.">
 

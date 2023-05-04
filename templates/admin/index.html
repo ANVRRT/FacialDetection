@@ -13,6 +13,8 @@
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" media="all">
 
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -108,7 +110,8 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Cara 1</h6>
                                 </div>
                                 <div class="card-body">
-
+                                    <!-- Space for image in 500 x 500 space -->
+                                    <img style="width: 100%; object-fit: cover; text-align: center;" src="{% static '/temp/' %}{{matricula}}.jpg">
                                 </div>
                             </div>
 
@@ -123,6 +126,22 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Cara 2</h6>
                                 </div>
                                 <div class="card-body">
+                                    <div class="slideShow">
+
+                                        <div class="mainDiv">
+                                            <img id="mainSlide" class="slideShowMainImg" src="{% static '/TC3002B_Faces/' %}{{matricula}}/{{ images.0 }}" alt="Bicycle Photo">
+                                        </div>
+                                        <div class="miniDiv1">
+                                            <img id="mini1" onclick="switchImage(1);" class="slideShowMiniImg" src="{% static '/TC3002B_Faces/' %}{{matricula}}/{{ images.1 }}" alt="Bicycle Photo">
+                                        </div>
+                                        <div class="miniDiv2">
+                                            <img id="mini2" onclick="switchImage(2);" class="slideShowMiniImg" src="{% static '/TC3002B_Faces/' %}{{matricula}}/{{ images.2 }}" alt="Bicycle Photo">
+                                        </div>
+                                        <div class="miniDiv3">
+                                            <img id="mini3" onclick="switchImage(3);" class="slideShowMiniImg" src="{% static '/TC3002B_Faces/' %}{{matricula}}/{{ images.3 }}" alt="Bicycle Photo">
+                                        </div>
+                            
+                                    </div>
                                 </div>
                             </div>
 

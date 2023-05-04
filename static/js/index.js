@@ -19,6 +19,7 @@
   var photo = null;
   var startbutton = null;
   var image_to_process = null;
+  var submitButton = null;
 
   function startup() {
     video = document.getElementById('video');
@@ -26,6 +27,7 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
     image_to_process = document.getElementById('image_to_process');
+    submitButton = document.getElementById('submit');
 
     navigator.mediaDevices.getUserMedia({video: true, audio: false})
     .then(function(stream) {
@@ -57,7 +59,6 @@
 
     startbutton.addEventListener('click', function(ev){
       takepicture();
-      console.log("click");
       ev.preventDefault();
     }, false);
     
@@ -86,20 +87,32 @@
 
   function takepicture() {
     var context = canvas.getContext('2d');
+    console.log(startbutton.textContent)
+    if (startbutton.textContent == "TOMAR FOTO") {
+      startbutton.textContent = "TOMAR FOTO DE NUEVO"
+      video.pause()
+      submitButton.style.display = 'block';
+
+    } else if (startbutton.textContent === "TOMAR FOTO DE NUEVO") {
+      startbutton.textContent = "TOMAR FOTO"
+      video.play()
+      submitButton.disabled = true;
+      submitButton.style.display = 'none';
+
+    }
+
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
       context.drawImage(video, 0, 0, width, height);
-    
+      
       var data = canvas.toDataURL('image/png');
       
       photo.setAttribute('src', data);
       image_to_process.setAttribute('value', data);
-      console.log("THS")
 
     } else {
       clearphoto();
-      console.log("THAT")
     }
   }
 
@@ -110,5 +123,4 @@
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener('load', startup, false);
-
 
