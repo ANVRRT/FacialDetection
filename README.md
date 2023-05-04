@@ -1,4 +1,10 @@
+[![Contributors][contributors-shield]][contributors-url]
+![Stargazers][stars-shield]
+[![License][license-shield]][license-url]
+
 Sistema de Autenticación por Reconocimiento Facial
+
+
 Este proyecto presenta un sistema de autenticación mediante el reconocimiento facial, utilizando Django para el procesamiento de imágenes y técnicas de aprendizaje automático. Este sistema consta de cuatro etapas, que se describen a continuación:
 
 Adquisición de imágenes: se adquieren imágenes de rostros de estudiantes del Tecnológico de Monterrey Campus Toluca.
@@ -29,3 +35,11 @@ Seleccione la opción de "tomar foto" y siga las instrucciones para acceder al s
 Si el sistema identifica su rostro correctamente, tendrá acceso a la página de inicio.
 Conclusiones
 Este proyecto presenta un sistema de autenticación por reconocimiento facial robusto que utiliza técnicas de aprendizaje automático para reducir la dimensionalidad de las características del rostro y mejorar la precisión de la identificación. Además, el uso de frameworks como Django permite una implementación más fácil y rápida de sistemas avanzados como este. Este sistema puede tener un gran potencial de aplicación en distintos sectores, especialmente en el de seguridad para el control de acceso y la gestión de identidad en el ámbito laboral.
+
+
+[contributors-shield]: https://img.shields.io/badge/CONTRIBUTORS-5-GREEN?style=for-the-badge
+[contributors-url]: https://github.com/ANVRRT/FacialDetection/graphs/contributors
+[stars-shield]: https://img.shields.io/badge/STARS-0-yellow?style=for-the-badge
+[license-shield]: https://img.shields.io/badge/LICENSE-%20-green?style=for-the-badge
+[license-url]: https://github.com/ANVRRT/Sales-registry-system-CRUD/blob/main/license.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
