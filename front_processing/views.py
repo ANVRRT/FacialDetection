@@ -27,10 +27,12 @@ from common.scripts.image_processing import image_received
 def index(request):
     request.session["matricula"] = None
 
-    context = {}
+    context = {
+        "alert": ""
+    }
     if request.method == 'POST':
 
-        photo_name = request.POST["matricula"]
+        photo_name = request.POST["matricula"].upper()
         dataURL = request.POST['image_to_process']
 
         image_data = re.search(r'base64,(.*)', dataURL).group(1)
@@ -51,11 +53,16 @@ def index(request):
             # Save as session variable
             request.session["matricula"] = result
 
-
-
             return redirect("front_processing:admin")
+        
+        if result is None:
+            context["alert"] = "No se detecto un rostro, intente de nuevo."
+
+        if not result:
+            context["alert"] = f"El rostro no coincide con el usuario {photo_name}, intente de nuevo."
         else:
-            return redirect("front_processing:index")
+            context["alert"] = "Usuario no encontrado, intente de nuevo."
+
 
     return render(request, 'front_processing/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
     
