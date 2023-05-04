@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
 from matplotlib import pyplot
 from sklearn.manifold import Isomap
-from common.scripts.create_database import image_to_vector
+from create_database import image_to_vector
 import pandas
 import numpy
 import glob
@@ -32,13 +32,25 @@ def manhattan(vector_x, vector_y):
     return sum(abs(component_x-component_y) for component_x, component_y in zip(vector_x,vector_y))
 
 # Create the graphs of each model.
-def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
-    ax[k].set_title(model_tag)
+#def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
+#    ax[k].set_title(model_tag)
+#    for var in images_dataframe.Keys.unique():
+#        ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
+#        reduced_faces[images_dataframe.Keys == var,1],
+#        linestyle = "None", marker = ".", label = var)
+#    pyplot.title(model_tag)
+def graph_models(images_dataframe, model_tag, k, reduced_faces):
+    
     for var in images_dataframe.Keys.unique():
-        ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
+        pyplot.plot(reduced_faces[images_dataframe.Keys == var,0],
         reduced_faces[images_dataframe.Keys == var,1],
         linestyle = "None", marker = ".", label = var)
+    
     pyplot.title(model_tag)
+    pyplot.legend(bbox_to_anchor=(1.37,0.5), loc="right")
+    pyplot.tight_layout()
+    pyplot.savefig('graph'+str(k+1)+".jpg")
+    pyplot.close()
 
 # The execute_models function is in charge of the following things:
 # Reduce the Images dimentionality with the different models PCA, SVD, ISOMAP.
@@ -52,7 +64,7 @@ def execute_models(images_array, vectorized_image, images_dataframe):
     "ISOmap": Isomap(n_components = 2)
     }
     
-    fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
+    #fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
 
     for k, model_tag in enumerate(Models.keys()):
         
@@ -61,7 +73,8 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
         
-        graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
+        #graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
+        graph_models(images_dataframe, model_tag, k, reduced_faces)
         
         similaritiesManhattan = []
         similaritiesEuclidean = []
@@ -90,9 +103,11 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         print('COSINE SIMILARITY WITH MODEL -- ' + model_tag)
         print(images_dataframe.iloc[cosineVectorIndex [0:5]]['Keys'])
 
-    label=images_dataframe.Keys.unique()
-    fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
-    pyplot.show()
+    
+    #label=images_dataframe.Keys.unique()
+    #fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
+    #pyplot.savefig('fig_1'+".jpg")
+    #pyplot.show()
 
 # Remove Keys from Dataframe.
 def remove_keys(images_dataframe, profile):
@@ -101,9 +116,12 @@ def remove_keys(images_dataframe, profile):
 
 # Function to receive the image that the user takes in the auth system.
 def image_recept(image_path):
-    image = glob.glob(image_path)
-    df=pandas.read_csv("common/scripts/Faces.csv")
+    
+    df=pandas.read_csv("Faces.csv")
 
-    vectorized_image=image_to_vector(image[0])
+    vectorized_image=image_to_vector(image_path[0])
 
     remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
+
+images = glob.glob("../files/TC3002B_Faces/" + "**/**.jpg")
+image_recept(images)
