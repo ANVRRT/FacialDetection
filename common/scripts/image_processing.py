@@ -45,7 +45,7 @@ def graph_models(images_dataframe, model_tag, k, reduced_faces):
     pyplot.title(model_tag)
     pyplot.legend(bbox_to_anchor=(1.37,0.5), loc="right")
     pyplot.tight_layout()
-    pyplot.savefig('/static/graphs/graph_'+str(k+1)+".jpg")
+    pyplot.savefig('static/graphs/graph_'+str(k+1)+".jpg")
     pyplot.close()
     
 # The execute_models function is in charge of the following things:
