@@ -13,6 +13,8 @@
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="{% static 'js/dashboard.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}" type="text/css" media="all">
 
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -109,7 +111,7 @@
                                 </div>
                                 <div class="card-body">
                                     <!-- Space for image in 500 x 500 space -->
-                                    <img src="{% static '/temp/' %}{{matricula}}.jpg">
+                                    <img style="width: 100%; object-fit: cover; text-align: center;" src="{% static '/temp/' %}{{matricula}}.jpg">
                                 </div>
                             </div>
 
