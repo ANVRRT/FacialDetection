@@ -59,7 +59,7 @@ Mac
 
 ```
 brew install python-tk
-Brew install make
+Brew install cmake
 ```
 
 Windows
