@@ -39,11 +39,21 @@ Clone este repositorio en su máquina local.
 Instale los requisitos especificados en el archivo requirements.txt usando el comando pip install -r requirements.txt.
 Ejecute el archivo manage.py en la línea de comandos con el siguiente comando: python manage.py runserver.
 Uso
-Para utilizar este sistema de autenticación por reconocimiento facial, siga los siguientes pasos:
 
-Ingrese a la página web que se generó en el paso anterior (localhost:8000 por defecto).
-Seleccione la opción de "tomar foto" y siga las instrucciones para acceder al sistema
-Si el sistema identifica su rostro correctamente, tendrá acceso a la página de inicio.
+
+<ul>
+  
+  Para utilizar este sistema de autenticación por reconocimiento facial, siga los siguientes pasos:
+
+  <li>Ingrese a la página web que se generó en el paso anterior (localhost:8000 por defecto).</li>
+
+  <li>Seleccione la opción de "tomar foto" y siga las instrucciones para acceder al sistema</li>
+
+  <li>Si el sistema identifica su rostro correctamente, tendrá acceso a la página de inicio.</li>
+  
+</ul>
+
+
 Conclusiones
 Este proyecto presenta un sistema de autenticación por reconocimiento facial robusto que utiliza técnicas de aprendizaje automático para reducir la dimensionalidad de las características del rostro y mejorar la precisión de la identificación. Además, el uso de frameworks como Django permite una implementación más fácil y rápida de sistemas avanzados como este. Este sistema puede tener un gran potencial de aplicación en distintos sectores, especialmente en el de seguridad para el control de acceso y la gestión de identidad en el ámbito laboral.
 
