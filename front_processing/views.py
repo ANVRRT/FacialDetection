@@ -8,7 +8,11 @@ from urllib.request import urlopen
 import os
 import re
 import base64
+import glob
 # from .forms.forms import ImageUploadForm
+from django.contrib.staticfiles.utils import get_files
+from django.contrib.staticfiles.storage import StaticFilesStorage
+
 
 from common.scripts.image_processing import image_received
 
@@ -45,13 +49,28 @@ def index(request):
 
         with open(image_file_path, 'wb') as image_file:
             image_file.write(image_data)
-
-        print(image_file_path, photo_name)
         
         result = image_received(image_file_path, photo_name)
         if photo_name == result: # IDK what TF is going to return here
             # Save as session variable
             request.session["matricula"] = result
+
+            images = glob.glob(f"static/TC3002B_Faces/{photo_name}" + "/**.jpg")
+            image_names = []
+            # For Windows
+            for index, image in enumerate(images):
+                #Windows
+                image_name = str(image).split("/")[2].split("\\")[1]
+
+                #Mac
+                # image_name = str(image).split("/")[3]
+
+                image_names.append(image_name)
+
+                if index >= 3:
+                    break
+
+            request.session["images"] = image_names
 
             return redirect("front_processing:admin")
         
@@ -70,8 +89,11 @@ def admin_dashboard(request):
     if not request.session["matricula"]:
         return redirect("front_processing:index")
     
+    print(request.session["images"])
     context = {
-        "matricula": request.session["matricula"]
+        "matricula": request.session["matricula"],
+        "images": request.session["images"]
+
     }
 
 
