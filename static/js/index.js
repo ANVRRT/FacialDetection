@@ -124,4 +124,3 @@
   // once loading is complete.
   window.addEventListener('load', startup, false);
 
-

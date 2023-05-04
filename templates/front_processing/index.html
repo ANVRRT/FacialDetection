@@ -11,6 +11,13 @@
     </head>
     <body style="overflow-y: scroll;">
         <h1>Autenticación por reconocimiento facial</h1>
+        {% if alert %}
+
+        <div style="color: rgb(189, 19, 19); text-align: center;" role="alert">
+            <h2> {{ alert }} </h2>
+        </div>
+
+        {% endif %}
         <div id="camera" class="camera" style="width: 640px; height: 480px;">
             <video id="video" style="width: 640px; height: 480px;">Video stream not available.</video>
         </div>
