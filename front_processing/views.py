@@ -11,6 +11,9 @@ import base64
 # from .forms.forms import ImageUploadForm
 
 from common.scripts.image_processing import image_recept
+from common.utils.image_procesor import image_procesor
+
+
 
 
 # Create your views here.
@@ -26,7 +29,7 @@ def index(request):
     context = {}
     if request.method == 'POST':
 
-        photo_name = "photo_to_process"
+        photo_name = request.POST["matricula"]
         dataURL = request.POST['image_to_process']
 
         image_data = re.search(r'base64,(.*)', dataURL).group(1)
