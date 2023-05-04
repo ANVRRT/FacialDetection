@@ -60,10 +60,10 @@ def index(request):
             # For Windows
             for index, image in enumerate(images):
                 #Windows
-                image_name = str(image).split("/")[2].split("\\")[1]
+                #image_name = str(image).split("/")[2].split("\\")[1]
 
                 #Mac
-                # image_name = str(image).split("/")[3]
+                image_name = str(image).split("/")[3]
 
                 image_names.append(image_name)
 

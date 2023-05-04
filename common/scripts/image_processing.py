@@ -91,10 +91,6 @@ def execute_models(images_array, vectorized_image, images_dataframe, user):
         euclideanVectorIndex = numpy.argsort(similaritiesEuclidean)
         cosineVectorIndex = numpy.argsort(similaritiesCosine)[::-1]
 
-        # compare_array = numpy.append(compare_array,images_dataframe.iloc[manhattanVectorIndex[0:5]]['Keys'])
-        # compare_array = numpy.append(compare_array,images_dataframe.iloc[euclideanVectorIndex[0:5]]['Keys'])
-        # compare_array = numpy.append(compare_array,images_dataframe.iloc[cosineVectorIndex[0:5]]['Keys'])
-
         for i in range(0,5):
             similar_faces.append((images_dataframe['Keys'][manhattanVectorIndex[i]], model_tag))
             similar_faces.append((images_dataframe['Keys'][euclideanVectorIndex[i]], model_tag))
