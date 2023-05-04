@@ -2,7 +2,16 @@
 ![Stargazers][stars-shield]
 [![License][license-shield]][license-url]
 
-Sistema de Autenticación por Reconocimiento Facial
+
+<br />
+<p align="center">
+  <h3 align="center">Sistema de Autenticación por Reconocimiento Facial</h3>
+  <p align="center">
+    Facial Recognition
+  </p>
+</p>
+
+
 
 
 Este proyecto presenta un sistema de autenticación mediante el reconocimiento facial, utilizando Django para el procesamiento de imágenes y técnicas de aprendizaje automático. Este sistema consta de cuatro etapas, que se describen a continuación:
