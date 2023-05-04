@@ -36,9 +36,21 @@ Instalación
 Para instalar este sistema de autenticación por reconocimiento facial, siga los siguientes pasos:
 
 Clone este repositorio en su máquina local.
-Instale los requisitos especificados en el archivo requirements.txt usando el comando pip install -r requirements.txt.
+
+Instale los requisitos especificados en el archivo Pipfile utilizando PIPENV corriendo:
+
+```
+  pipenv install
+```
+
+Y una vez instalado corriendo:
+
+```
+  pipenv shell
+```
+
 Ejecute el archivo manage.py en la línea de comandos con el siguiente comando: python manage.py runserver.
-Uso
+
 
 
 <ul>
