@@ -1,13 +1,31 @@
-Install dependencies
+Sistema de Autenticación por Reconocimiento Facial
+Este proyecto presenta un sistema de autenticación mediante el reconocimiento facial, utilizando Django para el procesamiento de imágenes y técnicas de aprendizaje automático. Este sistema consta de cuatro etapas, que se describen a continuación:
 
-python3-tk
+Adquisición de imágenes: se adquieren imágenes de rostros de estudiantes del Tecnológico de Monterrey Campus Toluca.
+Extracción y vectorización de características: se extraen y vectorizan las características del rostro.
+Reducción de dimensionalidad: se utilizan diferentes modelos (PCA, SVD e ISOmap) para reducir la dimensionalidad y extraer características importantes para la clasificación de los rostros.
+Identificación del rostro: se asigna una ponderación a los resultados obtenidos en cada uno de los modelos para identificar el rostro en cuestión.
+Este último paso se realiza como propuesta de solución para sistemas de reconocimiento facial ante un conjunto de datos limitado. Los resultados sugieren que el uso de técnicas de reducción de dimensiones y métricas de similitud adecuadas puede mejorar significativamente el rendimiento de los sistemas de reconocimiento facial.
 
-Linux
+Requisitos
+Para poder utilizar este sistema de autenticación por reconocimiento facial, se necesitan los siguientes requisitos:
 
-sudo apt-get install python3-tk
+Python 3.6 o superior
+Django 3.2 o superior
+OpenCV 4.5 o superior
+NumPy 1.20 o superior
+Scikit-learn 0.24 o superior
+Instalación
+Para instalar este sistema de autenticación por reconocimiento facial, siga los siguientes pasos:
 
-Mac
+Clone este repositorio en su máquina local.
+Instale los requisitos especificados en el archivo requirements.txt usando el comando pip install -r requirements.txt.
+Ejecute el archivo manage.py en la línea de comandos con el siguiente comando: python manage.py runserver.
+Uso
+Para utilizar este sistema de autenticación por reconocimiento facial, siga los siguientes pasos:
 
-brew install python-tk
-
-Windows
+Ingrese a la página web que se generó en el paso anterior (localhost:8000 por defecto).
+Seleccione la opción de "tomar foto" y siga las instrucciones para acceder al sistema
+Si el sistema identifica su rostro correctamente, tendrá acceso a la página de inicio.
+Conclusiones
+Este proyecto presenta un sistema de autenticación por reconocimiento facial robusto que utiliza técnicas de aprendizaje automático para reducir la dimensionalidad de las características del rostro y mejorar la precisión de la identificación. Además, el uso de frameworks como Django permite una implementación más fácil y rápida de sistemas avanzados como este. Este sistema puede tener un gran potencial de aplicación en distintos sectores, especialmente en el de seguridad para el control de acceso y la gestión de identidad en el ámbito laboral.
