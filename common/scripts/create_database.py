@@ -65,11 +65,15 @@ def image_to_vector(File):
     # Give an image, return the 128-dimension face encoding for each face in the image.
     face_vectors = face_recognition.face_encodings(rescale_image, locations)
 
-    # Save the face vector.
-    face_vector = face_vectors[0]
+    if (len(face_vectors) > 0):
+        # Save the face vector.
+        face_vector = face_vectors[0]
+        # return the face vector.
+        return face_vector
+    else:
+        return None
 
-    # return the face vector.
-    return face_vector
+    
 
 
 if __name__ == '__main__':

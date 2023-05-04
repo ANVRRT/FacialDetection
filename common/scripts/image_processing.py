@@ -1,7 +1,9 @@
 # Imports
 from sklearn.decomposition import PCA
 from sklearn.decomposition import TruncatedSVD
+import matplotlib
 from matplotlib import pyplot
+matplotlib.use('SVG')
 from sklearn.manifold import Isomap
 from common.scripts.create_database import image_to_vector
 import pandas
@@ -33,14 +35,19 @@ def manhattan(vector_x, vector_y):
     return sum(abs(component_x-component_y) for component_x, component_y in zip(vector_x,vector_y))
 
 # Create the graphs of each model.
-def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
-    ax[k].set_title(model_tag)
+def graph_models(images_dataframe, model_tag, k, reduced_faces):
+    
     for var in images_dataframe.Keys.unique():
-        ax[k].plot(reduced_faces[images_dataframe.Keys == var,0],
+        pyplot.plot(reduced_faces[images_dataframe.Keys == var,0],
         reduced_faces[images_dataframe.Keys == var,1],
         linestyle = "None", marker = ".", label = var)
+    
     pyplot.title(model_tag)
-
+    pyplot.legend(bbox_to_anchor=(1.37,0.5), loc="right")
+    pyplot.tight_layout()
+    pyplot.savefig('/static/graphs/graph_'+str(k+1)+".jpg")
+    pyplot.close()
+    
 # The execute_models function is in charge of the following things:
 # Reduce the Images dimentionality with the different models PCA, SVD, ISOMAP.
 # Check the Similarity of the Resulting Vectors to determine if the user trying
@@ -53,8 +60,6 @@ def execute_models(images_array, vectorized_image, images_dataframe, user):
     "ISOmap": Isomap(n_components = 2)
     }
     
-    #fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
-    compare_array = numpy.array([])
     similar_faces = []
     similar_faces_dict = {}
     for k, model_tag in enumerate(Models.keys()):
@@ -64,8 +69,8 @@ def execute_models(images_array, vectorized_image, images_dataframe, user):
         reduced_faces = images_array_model.transform(images_array)
         reduced_face = images_array_model.transform(vectorized_image)
         
-        #graph_models(images_dataframe, model_tag, k, ax, reduced_faces)
-        
+        graph_models(images_dataframe, model_tag, k, reduced_faces)
+
         similaritiesManhattan = []
         similaritiesEuclidean = []
         similaritiesCosine = []
@@ -95,10 +100,7 @@ def execute_models(images_array, vectorized_image, images_dataframe, user):
             similar_faces.append((images_dataframe['Keys'][euclideanVectorIndex[i]], model_tag))
             similar_faces.append((images_dataframe['Keys'][cosineVectorIndex[i]], model_tag))
 
-    #similar_faces = numpy.asarray(similar_faces)
-    #label=images_dataframe.Keys.unique()
-    #fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
-    #pyplot.show()
+    
     for index, tup in enumerate(similar_faces):
         if tup[0] not in similar_faces_dict.keys():
             if tup[1] == 'SVD':
@@ -127,13 +129,14 @@ def remove_keys(images_dataframe, profile, user):
     return user_auth
 
 # Function to receive the image that the user takes in the auth system.
-def image_received(image_path, user):
+def image_received(image_path,user):
     image = glob.glob(image_path)
     df=pandas.read_csv("common/scripts/Faces.csv")
 
     vectorized_image=image_to_vector(image[0])
-
-    user_auth = remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1), user)
-
-    return user_auth
+    if (vectorized_image is not None):
+        user_auth = remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1), user)
+        return user_auth
+    else:
+        return None
 
