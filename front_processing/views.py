@@ -5,11 +5,18 @@ from django.core.files.temp import NamedTemporaryFile
 #Import urlopen
 from urllib.request import urlopen
 
-from create_database import *
 import os
 import re
 import base64
-from .forms.forms import ImageUploadForm
+import glob
+# from .forms.forms import ImageUploadForm
+from django.contrib.staticfiles.utils import get_files
+from django.contrib.staticfiles.storage import StaticFilesStorage
+
+
+from common.scripts.image_processing import image_received
+
+
 
 
 # Create your views here.
@@ -22,36 +29,77 @@ from .forms.forms import ImageUploadForm
 
 
 def index(request):
-    context = {}
+    request.session["matricula"] = None
+
+    context = {
+        "alert": ""
+    }
     if request.method == 'POST':
 
-        photo_name = request.POST['photo_name']
+        photo_name = request.POST["matricula"].upper()
         dataURL = request.POST['image_to_process']
 
         image_data = re.search(r'base64,(.*)', dataURL).group(1)
         image_data = re.sub("^data:image/png;base64,", "", image_data)
         image_data = base64.b64decode(image_data)
 
-        image_file_name = photo_name + ".png"
+        image_file_name = photo_name + ".jpg"
 
-        X = image_to_vector(image_file_name)
-
-        print(X)
-
-        database = pandas.read_csv("Faces.csv")
-
-        print(database)
-
-        image_file_path = os.path.join('temp/images/', image_file_name)
+        image_file_path = os.path.join('static/temp/', image_file_name)
 
         with open(image_file_path, 'wb') as image_file:
             image_file.write(image_data)
+        
+        result = image_received(image_file_path, photo_name)
+        if photo_name == result: # IDK what TF is going to return here
+            # Save as session variable
+            request.session["matricula"] = result
+
+            images = glob.glob(f"static/TC3002B_Faces/{photo_name}" + "/**.jpg")
+            image_names = []
+            # For Windows
+            for index, image in enumerate(images):
+                #Windows
+                image_name = str(image).split("/")[2].split("\\")[1]
+
+                #Mac
+                # image_name = str(image).split("/")[3]
+
+                image_names.append(image_name)
+
+                if index >= 3:
+                    break
+
+            request.session["images"] = image_names
+
+            return redirect("front_processing:admin")
+        
+        if result is None:
+            context["alert"] = "No se detecto un rostro, intente de nuevo."
+
+        if not result:
+            context["alert"] = f"El rostro no coincide con el usuario {photo_name}, intente de nuevo."
+        else:
+            context["alert"] = "Usuario no encontrado, intente de nuevo."
 
 
     return render(request, 'front_processing/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
     
+def admin_dashboard(request):
+    if not request.session["matricula"]:
+        return redirect("front_processing:index")
+    
+    context = {
+        "matricula": request.session["matricula"],
+        "images": request.session["images"]
 
-    return render(request, 'front_processing/index.html')
+    }
+
+
+
+
+    return render(request, 'admin/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
+
 
 # def image_upload(request):
 #     context = dict()

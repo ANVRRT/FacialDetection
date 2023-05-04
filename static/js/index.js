@@ -1,4 +1,4 @@
-(function() {
+
   // The width and height of the captured photo. We will set the
   // width to the value defined here, but the height will be
   // calculated based on the aspect ratio of the input stream.
@@ -19,6 +19,7 @@
   var photo = null;
   var startbutton = null;
   var image_to_process = null;
+  var submitButton = null;
 
   function startup() {
     video = document.getElementById('video');
@@ -26,6 +27,7 @@
     photo = document.getElementById('photo');
     startbutton = document.getElementById('startbutton');
     image_to_process = document.getElementById('image_to_process');
+    submitButton = document.getElementById('submit');
 
     navigator.mediaDevices.getUserMedia({video: true, audio: false})
     .then(function(stream) {
@@ -85,11 +87,25 @@
 
   function takepicture() {
     var context = canvas.getContext('2d');
+    console.log(startbutton.textContent)
+    if (startbutton.textContent == "TOMAR FOTO") {
+      startbutton.textContent = "TOMAR FOTO DE NUEVO"
+      video.pause()
+      submitButton.style.display = 'block';
+
+    } else if (startbutton.textContent === "TOMAR FOTO DE NUEVO") {
+      startbutton.textContent = "TOMAR FOTO"
+      video.play()
+      submitButton.disabled = true;
+      submitButton.style.display = 'none';
+
+    }
+
     if (width && height) {
       canvas.width = width;
       canvas.height = height;
       context.drawImage(video, 0, 0, width, height);
-    
+      
       var data = canvas.toDataURL('image/png');
       
       photo.setAttribute('src', data);
@@ -100,7 +116,11 @@
     }
   }
 
+  function submittest(){
+    takepicture();
+  }
+
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener('load', startup, false);
-})();
+
