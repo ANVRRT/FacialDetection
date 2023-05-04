@@ -89,7 +89,6 @@ def admin_dashboard(request):
     if not request.session["matricula"]:
         return redirect("front_processing:index")
     
-    print(request.session["images"])
     context = {
         "matricula": request.session["matricula"],
         "images": request.session["images"]
