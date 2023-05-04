@@ -124,6 +124,7 @@ def execute_models(images_array, vectorized_image, images_dataframe, user):
 def remove_keys(images_dataframe, profile, user):
     face=numpy.asarray(images_dataframe.iloc[:,1:])
     user_auth = execute_models(face, profile, images_dataframe, user)
+    return user_auth
 
 # Function to receive the image that the user takes in the auth system.
 def image_received(image_path, user):
