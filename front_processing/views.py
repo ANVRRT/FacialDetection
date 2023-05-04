@@ -10,8 +10,7 @@ import re
 import base64
 # from .forms.forms import ImageUploadForm
 
-from common.scripts.image_processing import image_recept
-from common.utils.image_procesor import image_procesor
+from common.scripts.image_processing import image_received
 
 
 
@@ -26,6 +25,8 @@ from common.utils.image_procesor import image_procesor
 
 
 def index(request):
+    request.session["matricula"] = None
+
     context = {}
     if request.method == 'POST':
 
@@ -38,14 +39,20 @@ def index(request):
 
         image_file_name = photo_name + ".jpg"
 
-        image_file_path = os.path.join('temp/images/', image_file_name)
+        image_file_path = os.path.join('static/temp/', image_file_name)
 
         with open(image_file_path, 'wb') as image_file:
             image_file.write(image_data)
 
+        print(image_file_path, photo_name)
         
-        results = image_recept(image_file_path)
-        if results: # IDK what TF is going to return here
+        result = image_received(image_file_path, photo_name)
+        if photo_name == result: # IDK what TF is going to return here
+            # Save as session variable
+            request.session["matricula"] = result
+
+
+
             return redirect("front_processing:admin")
         else:
             return redirect("front_processing:index")
@@ -53,7 +60,16 @@ def index(request):
     return render(request, 'front_processing/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
     
 def admin_dashboard(request):
-    context = {'matricula':'A01365190'}
+    if not request.session["matricula"]:
+        return redirect("front_processing:index")
+    
+    context = {
+        "matricula": request.session["matricula"]
+    }
+
+
+
+
     return render(request, 'admin/index.html', context=context)  # context is like respose data we are sending back to user, that will be rendered with specified 'html file'.
 
 
