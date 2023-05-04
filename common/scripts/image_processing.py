@@ -126,7 +126,7 @@ def remove_keys(images_dataframe, profile, user):
     user_auth = execute_models(face, profile, images_dataframe, user)
 
 # Function to receive the image that the user takes in the auth system.
-def image_recept(image_path, user):
+def image_received(image_path, user):
     image = glob.glob(image_path)
     df=pandas.read_csv("common/scripts/Faces.csv")
 
