@@ -7,6 +7,7 @@ from common.scripts.create_database import image_to_vector
 import pandas
 import numpy
 import glob
+import operator
 
 # Function Vectors Similarity. 
 
@@ -44,7 +45,7 @@ def graph_models(images_dataframe, model_tag, k, ax, reduced_faces):
 # Reduce the Images dimentionality with the different models PCA, SVD, ISOMAP.
 # Check the Similarity of the Resulting Vectors to determine if the user trying
 # the authentication is the correct user.
-def execute_models(images_array, vectorized_image, images_dataframe):
+def execute_models(images_array, vectorized_image, images_dataframe, user):
     
     Models = {
     "PCA":PCA(n_components = 2),
@@ -53,7 +54,9 @@ def execute_models(images_array, vectorized_image, images_dataframe):
     }
     
     #fig, ax = pyplot.subplots(1,3, figsize = [16,6] )
-    similar_faces = numpy.array([])
+    compare_array = numpy.array([])
+    similar_faces = []
+    similar_faces_dict = {}
     for k, model_tag in enumerate(Models.keys()):
         
         Model = Models.get(model_tag)
@@ -83,25 +86,53 @@ def execute_models(images_array, vectorized_image, images_dataframe):
         euclideanVectorIndex = numpy.argsort(similaritiesEuclidean)
         cosineVectorIndex = numpy.argsort(similaritiesCosine)[::-1]
 
-        similar_faces=numpy.append(similar_faces, images_dataframe.iloc[manhattanVectorIndex[0:5]]['Keys'])
-        similar_faces=numpy.append(similar_faces, images_dataframe.iloc[euclideanVectorIndex [0:5]]['Keys'])
-        similar_faces=numpy.append(similar_faces, images_dataframe.iloc[cosineVectorIndex [0:5]]['Keys'])
+        # compare_array = numpy.append(compare_array,images_dataframe.iloc[manhattanVectorIndex[0:5]]['Keys'])
+        # compare_array = numpy.append(compare_array,images_dataframe.iloc[euclideanVectorIndex[0:5]]['Keys'])
+        # compare_array = numpy.append(compare_array,images_dataframe.iloc[cosineVectorIndex[0:5]]['Keys'])
 
+        for i in range(0,5):
+            similar_faces.append((images_dataframe['Keys'][manhattanVectorIndex[i]], model_tag))
+            similar_faces.append((images_dataframe['Keys'][euclideanVectorIndex[i]], model_tag))
+            similar_faces.append((images_dataframe['Keys'][cosineVectorIndex[i]], model_tag))
 
+    #similar_faces = numpy.asarray(similar_faces)
     #label=images_dataframe.Keys.unique()
     #fig.legend([ax[0], ax[1], ax[2]],labels=label,loc = "right")
     #pyplot.show()
-    print(similar_faces)
+    for index, tup in enumerate(similar_faces):
+        if tup[0] not in similar_faces_dict.keys():
+            if tup[1] == 'SVD':
+                similar_faces_dict[tup[0]] = 0.5
+            else:
+                similar_faces_dict[tup[0]] = 1
+        else:
+            if tup[1] == 'SVD':
+                similar_faces_dict[tup[0]] += 0.5
+            else:
+                similar_faces_dict[tup[0]] += 1
+
+    similar_faces_dict = dict(sorted(similar_faces_dict.items(), key=operator.itemgetter(1), reverse=True))
+    items_to_check = int(numpy.ceil(len(similar_faces_dict)/3))
+    check_similar_face = dict(list(similar_faces_dict.items())[0:items_to_check])
+
+    if(user in check_similar_face.keys()):
+        return user
+    else:
+        return False
+    
 # Remove Keys from Dataframe.
-def remove_keys(images_dataframe, profile):
+def remove_keys(images_dataframe, profile, user):
     face=numpy.asarray(images_dataframe.iloc[:,1:])
-    execute_models(face, profile, images_dataframe)
+    user_auth = execute_models(face, profile, images_dataframe, user)
 
 # Function to receive the image that the user takes in the auth system.
-def image_recept(image_path):
+def image_recept(image_path, user):
     image = glob.glob(image_path)
     df=pandas.read_csv("common/scripts/Faces.csv")
 
     vectorized_image=image_to_vector(image[0])
 
-    remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1))
+    user_auth = remove_keys(df,numpy.asarray(vectorized_image).reshape(1, -1), user)
+
+    return user_auth
+
