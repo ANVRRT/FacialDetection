@@ -40,6 +40,27 @@ Para instalar este sistema de autenticación por reconocimiento facial, siga los
 
 Clone este repositorio en su máquina local.
 
+Instale dependencias en local:
+
+```
+Install dependencies
+cmake
+python3-tk
+
+Linux
+Sudo apt install make
+sudo apt-get install python3-tk
+
+Mac
+
+brew install python-tk
+Brew install make
+
+Windows
+pip install tk
+pip install cmake
+```
+
 Instale los requisitos especificados en el archivo Pipfile utilizando PIPENV corriendo:
 
 ```
