@@ -49,7 +49,11 @@ Y una vez instalado corriendo:
   pipenv shell
 ```
 
-Ejecute el archivo manage.py en la línea de comandos con el siguiente comando: python manage.py runserver.
+Ejecute el archivo manage.py en la línea de comandos con el siguiente comando.
+
+```
+  python manage.py runserver
+```
 
 
 
