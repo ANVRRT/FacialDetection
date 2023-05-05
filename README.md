@@ -1,18 +1,20 @@
 [![Contributors][contributors-shield]][contributors-url]
 ![Stargazers][stars-shield]
 [![License][license-shield]][license-url]
-
+[![Paper][paper-view]][paper-url]
 
 <br />
 <p align="center">
   <h3 align="center">Sistema de Autenticación por Reconocimiento Facial</h3>
   <p align="center">
-    Facial Recognition
+    Facial Recognition System
   </p>
 </p>
 
-
-
+![image](https://user-images.githubusercontent.com/57366623/236377545-4b087a78-fdb6-47a3-a1da-0a4cafbaccd5.png)
+<p align="center" >
+  Fig 1. Sistema de Reconocimiento Facial 
+ </p>
 
 Este proyecto presenta un sistema de autenticación mediante el reconocimiento facial, utilizando Django para el procesamiento de imágenes y técnicas de aprendizaje automático. Este sistema consta de cuatro etapas, que se describen a continuación:
 
@@ -110,10 +112,11 @@ Conclusiones
 
 Este proyecto presenta un sistema de autenticación por reconocimiento facial robusto que utiliza técnicas de aprendizaje automático para reducir la dimensionalidad de las características del rostro y mejorar la precisión de la identificación; Además, el uso de frameworks como Django permite una implementación más fácil y rápida de sistemas avanzados como este. Este sistema puede tener un gran potencial de aplicación en distintos sectores, especialmente en el de seguridad para el control de acceso y la gestión de identidad en el ámbito laboral.
 
-
+[paper-view]:https://img.shields.io/badge/Paper-View-red?style=for-the-badge
 [contributors-shield]: https://img.shields.io/badge/CONTRIBUTORS-5-GREEN?style=for-the-badge
 [contributors-url]: https://github.com/ANVRRT/FacialDetection/graphs/contributors
 [stars-shield]: https://img.shields.io/badge/STARS-0-yellow?style=for-the-badge
 [license-shield]: https://img.shields.io/badge/LICENSE-%20-green?style=for-the-badge
 [license-url]: https://github.com/ANVRRT/Sales-registry-system-CRUD/blob/main/license.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[paper-url]:https://github.com/ANVRRT/FacialDetection/blob/main/Documentation/Justificacion_Sistema_de_Reconocimiento_Facial.pdf
